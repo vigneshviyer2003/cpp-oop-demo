@@ -1,0 +1,20 @@
+# Compiled object files and binaries
+*.o
+*.exe
+*.out
+*.elf
+*.bin
+*.hex
+
+# Build directories
+build/
+cmake-build-*/
+
+# Rust build output (can be several GB)
+target/
+
+# VS Code workspace settings
+.vscode/
+
+# macOS filesystem metadata
+.DS_Store
