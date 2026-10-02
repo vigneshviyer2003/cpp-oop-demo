@@ -4,13 +4,13 @@ using namespace std;
 class Army {
 private:
     int upgrade_rate = 10, level_cap = 20; 
-    // Cannot upgrade the troop/hero (object) by more than 20 levels and each level increases only by 10%
+    // Cannot upgrade the troop/hero (object) by more than 20 levels and each level increases stats only by 10%
 protected:
     string name;
     long int hp, dps;
     int level;
 public:
-    Army(string name, long int hp, int level, int dps): name(name), hp(hp), level(level), dps(dps) {}
+    Army(string name, long int hp, int level,long int dps): name(name), hp(hp), level(level), dps(dps) {}
     virtual void display() = 0;
     virtual ~Army() {
         cout << name << " was destroyed!\n";
@@ -38,7 +38,7 @@ void Army::upgrade(int i) {
         hp = hp + (hp * i * upgrade_rate / 100);
         dps = dps + (dps * i * upgrade_rate / 100);
         level = level + i;
-        cout << "Upgraded by 1 level.\n";
+        cout << "Upgraded by " << i << " levels.\n";
         display();
     }
     else {
