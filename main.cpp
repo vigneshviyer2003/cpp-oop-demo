@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <memory>
 using namespace std;
 
 class Army {
@@ -16,14 +18,14 @@ public:
     }
     virtual void display() = 0;
     void upgrade(); // Upgrade should be common to the entire army and only 1 level at a time
-    void upgrade(int i); // Doing multi-level upgrades with overloading
     static void disp_army(Army *army[], int size);
+    int show_level() const;
+    static void show_level(const Army &A);
 };
 
 void Army::disp_army(Army *army[], int size) {
     for(int i = 0; i < size; i++) {
         army[i]->display();
-        army[i] = nullptr;
     }
 }
 
@@ -36,23 +38,19 @@ void Army::upgrade() {
         display();
     }
     else {
-        cout << name << " is already at a max level of " << max_level;
+        cout << name << " is already at a max level";
         display();
     } 
 }
 
-void Army::upgrade(int i) {
-    if(level+i<=max_level) {
-        hp = hp + (hp * i * upgrade_rate / 100);
-        dps = dps + (dps * i * upgrade_rate / 100);
-        level = level + i;
-        cout << "Upgraded " << name << " by " << i << " levels.\n";
-        display();
-    }
-    else {
-        cout << name << " is already at a max level of " << max_level;
-        display();
-    } 
+int Army::show_level() const
+{
+    return level;
+}
+
+void Army::show_level(const Army &A)
+{
+    cout << "Level of " << A.name << " is " << A.level << " by passing through const refernce" << "\n\n";
 }
 
 // 2nd Parent of Hero as only Heroes can have abilities
@@ -75,7 +73,7 @@ void Hero::display(){
     cout << "HP: " << hp << endl;
     cout << "Damage per second: " << dps << endl; 
     cout << "Level: " << level << endl;
-    cout << "Ability: " << ability_name << endl << endl;
+    cout << "Ability: " << ability_name << "\n\n";
 }
 
 class Troop:public Army {
@@ -91,15 +89,15 @@ void Troop::display(){
     cout << "HP: " << hp << endl;
     cout << "Damage per second: " << dps << endl; 
     cout << "Level: " << level << endl;
-    cout << "Housing Space: " << housing << endl << endl;
+    cout << "Housing Space: " << housing << "\n\n";
 }
 
 int main() {
     Hero king("Barbarian King", 20000, 1, 200, "Spiky Ball");
-    king.upgrade();
+    king.display();
 
     Army *ptr = new Troop("Dragon", 4000, 1, 100, 20);
-    ptr->upgrade(2);
+    ptr->upgrade();
     delete ptr;
     ptr = nullptr;
 
@@ -108,5 +106,20 @@ int main() {
     Troop t3("Balloon", 1500, 1, 20, 5);
     Army *army[3] = {&t1, &t2, &t3};
     Army::disp_army(army, 3);
+
+    const Troop t4("Root Rider", 4800, 4, 60, 20);
+    cout << "Const qualified level: " << t4.show_level() << endl;
+    Army::show_level(t4);
+
+    shared_ptr<Army> ptr1 = make_shared<Hero>("Grand Warden", 15000, 2, 120, "Eternal Tome");
+    ptr1->display();
+    cout << ptr1.use_count() << "\n\n";
+
+    {   
+        shared_ptr<Army> ptr2 = ptr1;
+        cout << ptr2.use_count() << "\n\n";
+    }
+
+    cout << ptr1.use_count() << "\n\n"; 
     return 0;
 }
