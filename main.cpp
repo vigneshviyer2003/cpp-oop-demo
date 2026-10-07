@@ -66,6 +66,8 @@ protected:
 public:
     Hero(string name, long int hp, int level, long int dps, string ability): Army(name,hp,level,dps), Ability(ability) {}
     void display() override;
+    void switch_ability1(Hero h);
+    void switch_ability2(Hero &h);
 };
 
 void Hero::display(){
@@ -74,6 +76,20 @@ void Hero::display(){
     cout << "Damage per second: " << dps << endl; 
     cout << "Level: " << level << endl;
     cout << "Ability: " << ability_name << "\n\n";
+}
+
+void Hero::switch_ability1(Hero h)
+{
+    h.ability_name = "Invisibility";
+    cout << "Ability didn't switch.\n";
+    h.display();
+}
+
+void Hero::switch_ability2(Hero &h)
+{
+    h.ability_name = "Giant Gauntlet";
+    cout << "Ability switched.\n";
+    h.display();
 }
 
 class Troop:public Army {
@@ -121,5 +137,8 @@ int main() {
     }
 
     cout << ptr1.use_count() << "\n\n"; 
+
+    king.switch_ability1(king); // Pass by Value
+    king.switch_ability2(king); // Pass by Reference
     return 0;
 }
