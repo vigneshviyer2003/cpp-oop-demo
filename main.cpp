@@ -3,6 +3,9 @@
 #include <memory>
 using namespace std;
 
+class Army;                  
+void apply_upgrade(Army &a);
+
 // Parent  
 class Army {
 private:
@@ -19,9 +22,11 @@ public:
     }
     virtual void display() = 0;
     void upgrade(); // Upgrade should be common to the entire army and only 1 level at a time
+    void self_upgrade(); 
     static void disp_army(Army *army[], int size);
     int show_level() const;
     static void show_level(const Army &A);
+    friend void special_upgrade(Army &A);
 };
 
 Army::Army(string name, long int hp, int level,long int dps): name(name), hp(hp), level(level), dps(dps) {}
@@ -46,12 +51,26 @@ void Army::upgrade() {
     } 
 }
 
+void Army::self_upgrade() {
+    apply_upgrade(*this);
+}
+
+void apply_upgrade(Army &a) {
+    a.upgrade();
+}
+
 int Army::show_level() const {
     return level;
 }
 
 void Army::show_level(const Army &A) {
     cout << "Level of " << A.name << " is " << A.level << " by passing through const refernce" << "\n\n";
+}
+
+void special_upgrade(Army &A) {
+    A.upgrade_rate = 10; //increases upgrade rate to 10 for friend
+    cout << "Speical ";
+    A.upgrade();
 }
 
 // 2nd Parent of Hero as only Heroes can have abilities
@@ -99,7 +118,7 @@ class Troop:public Army {
 protected:
     //Each troop has a specific housing space, you can think of it like weight
     int housing;
-    static int count;
+    static int count; // Static variable for total space of troops
 public:
     Troop(string name, long int hp, int level, long int dps, int housing);
     void display() override;
@@ -154,6 +173,12 @@ int main() {
 
     king.switch_ability1(king); // Pass by Value
     king.switch_ability2(king); // Pass by Reference
+
+    Hero queen("Archer Queen", 15000, 1, 200, "Invisibility");
+    queen.self_upgrade(); // queen passes itself to apply_upgrade
+
+    Troop t5("Valkyrie", 1200, 1, 20, 8);
+    special_upgrade(t5); // friend function call
 
     Troop::total_troops();
     return 0;
