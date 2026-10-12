@@ -21,15 +21,20 @@ public:
         cout << name << " was destroyed!\n";
     }
     virtual void display() = 0;
+    void describe(); // not virtual
+    static void disp_army(Army *army[], int size); // for Array of Pointers 
     void upgrade(); // Upgrade should be common to the entire army and only 1 level at a time
     void self_upgrade(); 
-    static void disp_army(Army *army[], int size);
     int show_level() const;
     static void show_level(const Army &A);
     friend void special_upgrade(Army &A);
 };
 
 Army::Army(string name, long int hp, int level,long int dps): name(name), hp(hp), level(level), dps(dps) {}
+
+void Army::describe() {
+    cout << name << " is a unit of the army.\n\n";
+}
 
 void Army::disp_army(Army *army[], int size) {
     for(int i = 0; i < size; i++) {
@@ -68,7 +73,7 @@ void Army::show_level(const Army &A) {
 }
 
 void special_upgrade(Army &A) {
-    A.upgrade_rate = 10; //increases upgrade rate to 10 for friend
+    A.upgrade_rate = 10; //increases upgrade rate to 10 for friend function
     cout << "Speical ";
     A.upgrade();
 }
@@ -86,13 +91,14 @@ Ability::Ability(string ability_name): ability_name(ability_name) {}
 class Hero:public Army, public Ability {
 protected:
 public:
-    Hero(string name, long int hp, int level, long int dps, string ability);
+    Hero(string name, long int hp, int level, long int dps, string ability_name);
     void display() override;
+    Hero operator +(Hero &h);
     void switch_ability1(Hero h);
     void switch_ability2(Hero &h);
 };
 
-Hero::Hero(string name, long int hp, int level, long int dps, string ability): Army(name,hp,level,dps), Ability(ability) {}
+Hero::Hero(string name, long int hp, int level, long int dps, string ability_name): Army(name,hp,level,dps), Ability(ability_name) {}
 
 void Hero::display() {
     cout << "Name: " << name << endl;
@@ -114,6 +120,11 @@ void Hero::switch_ability2(Hero &h) {
     h.display();
 }
 
+Hero Hero::operator+(Hero &h) {
+    cout << name << " acquried " << h.name << "'s " << h.ability_name << " for it's duration.\n";
+    return Hero(name, hp, level, dps, ability_name + " & " + h.ability_name);
+}
+
 class Troop:public Army {
 protected:
     //Each troop has a specific housing space, you can think of it like weight
@@ -121,7 +132,9 @@ protected:
     static int count; // Static variable for total space of troops
 public:
     Troop(string name, long int hp, int level, long int dps, int housing);
-    void display() override;
+    virtual void display() override;
+    void describe();
+    bool operator ==(Troop);
     static void total_troops();
 };
 
@@ -139,8 +152,28 @@ void Troop::display() {
     cout << "Housing Space: " << housing << "\n\n";
 }
 
+void Troop::describe() {
+    cout << name << " is a troop with housing space " << housing << ".\n\n";
+}
+
+bool Troop::operator == (Troop t) {
+    if (t.housing == housing) {
+        return true; 
+    }
+    else
+        return false;
+}
+
 void Troop::total_troops() {
     cout << "Total space of army is: " << count << endl; 
+}
+
+void void_func(void* x) {
+    auto* troop = static_cast<Troop*>(x);
+    if (troop != nullptr) {
+        cout <<"Explicit cast-\n";
+        troop->upgrade();
+    }
 }
 
 int main() {
@@ -162,7 +195,7 @@ int main() {
     cout << "Const qualified level: " << t4.show_level() << endl;
     Army::show_level(t4);
 
-    shared_ptr<Army> ptr1 = make_shared<Hero>("Grand Warden", 15000, 2, 120, "Eternal Tome");
+    shared_ptr<Army> ptr1 = make_shared<Hero>("Archer Queen", 15000, 1, 200, "Invisibility");
     ptr1->display();
     cout << ptr1.use_count() << "\n\n";
     {   
@@ -174,12 +207,29 @@ int main() {
     king.switch_ability1(king); // Pass by Value
     king.switch_ability2(king); // Pass by Reference
 
-    Hero queen("Archer Queen", 15000, 1, 200, "Invisibility");
-    queen.self_upgrade(); // queen passes itself to apply_upgrade
+    Hero warden("Grand Warden", 15000, 2, 120, "Eternal Tome");
+    warden.self_upgrade(); // passes itself to apply_upgrade
 
     Troop t5("Valkyrie", 1200, 1, 20, 8);
     special_upgrade(t5); // friend function call
 
+    Army *ptr3 = &t1;
+    cout <<"\nDynamic binding-\n";
+    ptr3->display(); 
+    ptr3->describe();
+    t1.describe();
+
+    void_func(&t2);
+
+    if (&t1 == &t2) {
+        cout << "They have the same housing space.\n\n";
+    }
+    else {
+        cout << "They don't have the same housing space.\n\n";
+    }
+
+    Hero K = king+warden;
+    K.display();
     Troop::total_troops();
     return 0;
 }
