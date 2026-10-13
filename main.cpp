@@ -132,17 +132,21 @@ protected:
     static int count; // Static variable for total space of troops
 public:
     Troop(string name, long int hp, int level, long int dps, int housing);
+    Troop(const Troop &t);
     virtual void display() override;
     void describe();
-    bool operator ==(Troop);
+    bool operator ==(Troop &t);
+    Troop& operator =(const Troop &source);
     static void total_troops();
 };
 
 int Troop::count = 0;
 
 Troop::Troop(string name, long int hp, int level, long int dps, int housing): Army(name,hp,level,dps), housing(housing) {
-    count = count + housing;
+    count += housing;
 }
+
+Troop::Troop(const Troop &t): Troop(t.name, t.hp, t.level, t.dps, t.housing) {}
 
 void Troop::display() {
     cout << "Name: " << name << endl;
@@ -156,12 +160,20 @@ void Troop::describe() {
     cout << name << " is a troop with housing space " << housing << ".\n\n";
 }
 
-bool Troop::operator == (Troop t) {
-    if (t.housing == housing) {
-        return true; 
+bool Troop::operator == (Troop &t) {
+    return (t.name == name) && (t.level == level) && (t.housing == housing);
+}
+
+Troop& Troop::operator =(const Troop &source) {
+    if (this != &source) {
+        count += source.housing - housing;
+        name = source.name;
+        hp = source.hp;
+        dps = source.dps;
+        level = source.level;
+        housing = source.housing;
     }
-    else
-        return false;
+    return *this;
 }
 
 void Troop::total_troops() {
@@ -221,15 +233,32 @@ int main() {
 
     void_func(&t2);
 
-    if (&t1 == &t2) {
-        cout << "They have the same housing space.\n\n";
-    }
-    else {
-        cout << "They don't have the same housing space.\n\n";
-    }
-
     Hero K = king+warden;
     K.display();
+
+    Troop t6("Wall Breaker", 300, 1, 40, 22);
+    Troop t7("Goblin", 90, 1, 10, 11);
+
+    cout << "Before assignment-\n";
+    t6.display();
+    t7.display();
+
+    if (t6 == t7) {
+        cout << "They are the same troops.\n\n";
+    }
+    else {
+        cout << "They are not the same troops.\n\n";
+    }
+
+    t6 = t7 = t5;
+
+    cout << "After assignment-\n";
+    t6.display();
+    t7.display();
+
+    Troop t8(t5); // Copy Contructor
+    t8.display();
+
     Troop::total_troops();
     return 0;
 }
