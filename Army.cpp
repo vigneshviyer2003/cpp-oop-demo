@@ -2,14 +2,15 @@
 #include <iostream>
 using namespace std;
 
-Army::Army(string name, long int hp, int level,long int dps, Type type): name(name), hp(hp), level(level), dps(dps), type(type) {}
+Army::Army(string name, long int hp, int level, long int dps, Type type)
+    : name(name), hp(hp), level(level), dps(dps), type(type) {}
 
 Army::~Army() {
     cout << name << " was destroyed!\n";
 }
 
-
 string Army::type_name(Type t) {
+    // Convert enum values to readable names
     switch (t) {
         case Type::flying: return "Flying";
         case Type::ground: return "Ground";
@@ -26,13 +27,14 @@ void Army::describe() {
 }
 
 void Army::disp_army(Army *army[], int size) {
-    for(int i = 0; i < size; i++) {
+    // Display units through base-class pointers
+    for (int i = 0; i < size; i++) {
         army[i]->display();
     }
 }
 
 void Army::upgrade() {
-    if(level<max_level) {
+    if (level < max_level) {
         hp = hp + (hp * upgrade_rate / 100);
         dps = dps + (dps * upgrade_rate / 100);
         level++;
@@ -42,11 +44,11 @@ void Army::upgrade() {
     else {
         cout << name << " is already at a max level";
         display();
-    } 
+    }
 }
 
 void Army::self_upgrade() {
-    apply_upgrade(*this);
+    apply_upgrade(*this); // Pass the current object using *this
 }
 
 void apply_upgrade(Army &a) {
@@ -58,5 +60,7 @@ int Army::show_level() const {
 }
 
 void Army::show_level(const Army &A) {
-    cout << "Level of " << A.name << " is " << A.level << " by passing through const reference" << "\n\n";
+    // Access members through a const reference
+    cout << "Level of " << A.name << " is " << A.level
+         << " by passing through const reference" << "\n\n";
 }
