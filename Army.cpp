@@ -58,5 +58,5 @@ int Army::show_level() const {
 }
 
 void Army::show_level(const Army &A) {
-    cout << "Level of " << A.name << " is " << A.level << " by passing through const refernce" << "\n\n";
+    cout << "Level of " << A.name << " is " << A.level << " by passing through const reference" << "\n\n";
 }

@@ -26,7 +26,7 @@ void Hero::switch_ability2(Hero &h) {
 }
 
 Hero Hero::operator+(const Hero &h) {
-    cout << name << " acquried " << h.name << "'s " << h.ability_name << " for it's duration.\n";
+    cout << name << " acquired " << h.name << "'s " << h.ability_name << " for it's duration.\n";
     return Hero(name, hp, level, dps, ability_name + " & " + h.ability_name, type);
 }
 
