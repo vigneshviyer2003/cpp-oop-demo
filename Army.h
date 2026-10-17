@@ -8,7 +8,7 @@ private:
     int upgrade_rate = 5, max_level = 20; 
     // Max level can only be 20 and each level increases stats only by 5%
 public:
-    enum class Type {flying, ground};   // public so main() can write Army::Type::flying
+    enum class Type {flying, ground};   // [19] public so main() can write Army::Type::flying
 protected:
     string name;
     long int hp, dps;
@@ -20,7 +20,7 @@ public:
     virtual void display() = 0; // [3] Pure virtual display
     void describe(); // not virtual
     static void disp_army(Army *army[], int size); // for Array of Pointers 
-    static string type_name(Type t);    // enum class has no automatic text conversion
+    static string type_name(Type t);
     Type get_type() const;
     void upgrade(); // Upgrade should be common to the entire army and only 1 level at a time
     void self_upgrade(); 
