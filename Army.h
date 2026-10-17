@@ -17,7 +17,7 @@ protected:
 public:
     Army(string name, long int hp, int level,long int dps, Type type);
     virtual ~Army();
-    virtual void display() = 0;
+    virtual void display() = 0; // [3] Pure virtual display
     void describe(); // not virtual
     static void disp_army(Army *army[], int size); // for Array of Pointers 
     static string type_name(Type t);    // enum class has no automatic text conversion
@@ -26,7 +26,7 @@ public:
     void self_upgrade(); 
     int show_level() const;
     static void show_level(const Army &A);
-    friend void special_upgrade(Army &A);
+    friend void special_upgrade(Army &A); // [11] Friend Function
 };
 
 void apply_upgrade(Army &a);

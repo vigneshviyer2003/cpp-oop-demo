@@ -5,7 +5,7 @@ using namespace std;
 Army::Army(string name, long int hp, int level, long int dps, Type type)
     : name(name), hp(hp), level(level), dps(dps), type(type) {}
 
-Army::~Army() {
+Army::~Army() { // [4] Virtual Destructor
     cout << name << " was destroyed!\n";
 }
 
