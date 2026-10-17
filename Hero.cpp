@@ -29,7 +29,7 @@ void Hero::switch_ability2(Hero &h) {
 Hero Hero::operator+(const Hero &h) {
     // Overloaded + combines the abilities
     cout << name << " acquired " << h.name << "'s " << h.ability_name
-         << " for it's duration.\n";
+         << " for its duration.\n";
     return Hero(name, hp, level, dps, ability_name + " & " + h.ability_name, type);
 }
 

@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-int Troop::count = 0; // Initialise static member
+int Troop::count = 0; // [18] Initialise static member
 
 Troop::Troop(string name, long int hp, int level, long int dps, int housing, Type type)
     : Army(name, hp, level, dps, type), housing(housing) {
