@@ -45,12 +45,12 @@ The **Army Management System** is an edge-oriented C++ software architecture dem
                  +---------+---------+       +---------+---------+
                            ^                           ^
                            |                           |
-             +-------------+-------------+             |
-             |                           |             |
-     +-------+-------+           +-------+-------+     |
-     |     Troop     |           |     Hero      +-----+
-     | (Derived Class|           | (Derived Class|
-     +---------------+           +---------------+
+             +-------------+------------+              |
+             |                          |              |
+     +-------+---------+          +-------+---------+  |
+     |     Troop       |          |     Hero        +--+
+     | (Derived Class) |          | (Derived Class) |
+     +-----------------+          +-----------------+
 
 ```
 
@@ -72,10 +72,10 @@ To compile and execute the project using G++ (MinGW-w64 / MSYS2 toolchain):
 
 ```bash
 # Compile all source files into an executable
-g++ -std=c++17 main.cpp Army.cpp Ability.cpp Hero.cpp Troop.cpp -o ArmyManagement.exe
+g++ -std=c++17 main.cpp Army.cpp Ability.cpp Hero.cpp Troop.cpp -o main.exe
 
 # Run the binary
-./ArmyManagement.exe
+./main.exe
 
 ```
 
