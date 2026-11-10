@@ -2,7 +2,7 @@
 
 **Author:** Vignesh Iyer
 
-**Topic:** Assignment 1 of EEN1097 - Edge Programming in C/C++ and Rust 
+**Subject:** Assignment 1 of EEN1097 - Edge Programming in C/C++ and Rust 
 
 **Degree:** MSc in Electronics and Computer Technology / Major in Edge & Network Security
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-The **Army Management System** is an edge-oriented C++ software architecture demonstrating advanced Object-Oriented Programming (OOP) paradigms and modern C++17 design patterns. Inspired by tactical strategy game mechanics (such as *Clash of Clans*), the application models high-level unit hierarchies, dynamic resource allocation, memory management, and ability compositions using a clean, modular class structure.
+For my first assignment in edge-oriented programming, I demonstrated advanced Object-Oriented Programming (OOP) paradigms and modern C++17 design patterns. Inspired by tactical strategy game mechanics (*Clash of Clans*), the application models high-level unit hierarchies, dynamic resource allocation, memory management, and ability compositions using a clean, modular class structure.
 
 ---
 
