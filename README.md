@@ -72,10 +72,10 @@ To compile and execute the project using G++ (MinGW-w64 / MSYS2 toolchain):
 
 ```bash
 # Compile all source files into an executable
-g++ -std=c++17 main.cpp Army.cpp Ability.cpp Hero.cpp Troop.cpp -o main.exe
+g++ -std=c++17 -Iinclude src/*.cpp -o ArmyManagement
 
 # Run the binary
-./main.exe
+./ArmyManagement.exe
 
 ```
 
